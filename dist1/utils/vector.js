@@ -1,5 +1,7 @@
 /** Vector Math class. */
 export default class Vector {
+   
+    
     constructor(a, b, c) {
         var _a, _b, _c, _d, _e, _f;
         if (Array.isArray(a)) {
@@ -17,7 +19,7 @@ export default class Vector {
         this.x = a !== null && a !== void 0 ? a : 0;
         this.y = b !== null && b !== void 0 ? b : 0;
         this.z = c !== null && c !== void 0 ? c : 0;
-    } 
+    }
     // Methods //
     /**
      * Returns the negative of this vector.
