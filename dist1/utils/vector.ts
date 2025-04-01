@@ -1,37 +1,37 @@
 import { XYZ } from "../Types";
 
-function isXYZ(obj: any): obj is XYZ {
-  return (
-    typeof obj === "object" &&
-    obj !== null &&
-    "x" in obj &&
-    "y" in obj &&
-    "z" in obj
-  );
-}
-
 export default class Vector {
   x: number;
   y: number;
   z: number;
 
-  constructor(
-    a?: number[] | XYZ | number | Vector,
-    b?: number,
-    c?: number
-  ) {
-    if (Array.isArray(a)) {
+  constructor(a?: number[] | XYZ | number | Vector, b?: number, c?: number) {
+    if (a === undefined) {
+      // Si no se pasa nada, se inicializan en 0
+      this.x = 0;
+      this.y = 0;
+      this.z = 0;
+    } else if (typeof a === "number") {
+      // Si 'a' es un número, se espera que se pasen también 'b' y 'c'
+      this.x = a;
+      this.y = typeof b === "number" ? b : 0;
+      this.z = typeof c === "number" ? c : 0;
+    } else if (Array.isArray(a)) {
+      // Si 'a' es un arreglo, se usan sus valores
       this.x = a[0] ?? 0;
       this.y = a[1] ?? 0;
       this.z = a[2] ?? 0;
-    } else if (isXYZ(a)) {
+    } else if (typeof a === "object") {
+      // Finalmente, si 'a' es un objeto (incluyendo Vector o XYZ),
+      // se asume que tiene las propiedades x, y, z
       this.x = a.x ?? 0;
       this.y = a.y ?? 0;
       this.z = a.z ?? 0;
     } else {
-      this.x = typeof a === "number" ? a : 0;
-      this.y = typeof b === "number" ? b : 0;
-      this.z = typeof c === "number" ? c : 0;
+      // En cualquier otro caso, se inicializan en 0
+      this.x = 0;
+      this.y = 0;
+      this.z = 0;
     }
   }
 
