@@ -1,22 +1,23 @@
 /** Vector Math class. */
 export default class Vector {
     constructor(a, b, c) {
-        var _a, _b, _c, _d, _e, _f;
         if (Array.isArray(a)) {
-            this.x = (_a = a[0]) !== null && _a !== void 0 ? _a : 0;
-            this.y = (_b = a[1]) !== null && _b !== void 0 ? _b : 0;
-            this.z = (_c = a[2]) !== null && _c !== void 0 ? _c : 0;
+            this.x = a[0] ?? 0;
+            this.y = a[1] ?? 0;
+            this.z = a[2] ?? 0;
             return;
         }
-        if (!!a && typeof a === "object") {
-            this.x = (_d = a.x) !== null && _d !== void 0 ? _d : 0;
-            this.y = (_e = a.y) !== null && _e !== void 0 ? _e : 0;
-            this.z = (_f = a.z) !== null && _f !== void 0 ? _f : 0;
+        
+        if (a !== null && typeof a === "object") {
+            this.x = a.x ?? 0;
+            this.y = a.y ?? 0;
+            this.z = a.z ?? 0;
             return;
         }
-        this.x = a !== null && a !== void 0 ? a : 0;
-        this.y = b !== null && b !== void 0 ? b : 0;
-        this.z = c !== null && c !== void 0 ? c : 0;
+        
+        this.x = a ?? 0;
+        this.y = b ?? 0;
+        this.z = c ?? 0;
     }
     // Methods //
     /**
