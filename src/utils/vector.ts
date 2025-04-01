@@ -5,7 +5,6 @@ export default class Vector {
     public x: number;
     public y: number;
     public z: number;
-
     constructor(a?: number[] | Record<"x" | "y" | "z", number> | number | Vector, b?: number, c?: number) {
         if (Array.isArray(a)) {
             this.x = a[0] ?? 0;
@@ -13,19 +12,27 @@ export default class Vector {
             this.z = a[2] ?? 0;
             return;
         }
-
-        if (!!a && typeof a === "object") {
+        
+        if (a instanceof Vector) {
             this.x = a.x ?? 0;
             this.y = a.y ?? 0;
             this.z = a.z ?? 0;
             return;
         }
-
-        this.x = a ?? 0;
+        
+        if (a && typeof a === "object") {
+            this.x = a.x ?? 0;
+            this.y = a.y ?? 0;
+            this.z = a.z ?? 0;
+            return;
+        }
+        
+        // Usar conversión de tipo explícita para indicarle a TypeScript
+        // que en este punto 'a' es un número o undefined
+        this.x = (a as number | undefined) ?? 0;
         this.y = b ?? 0;
         this.z = c ?? 0;
     }
-
     // Methods //
     /**
      * Returns the negative of this vector.
