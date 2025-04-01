@@ -1,4 +1,5 @@
-import { siarp_initDrawVRM,siarp_getDataVRM,siarp_moveVRM,siarp_voz,siarp_audioPause} from '../../../script.js';
+import { siarp_initDrawVRM,
+	siarp_getDataVRM,siarp_moveVRM,siarp_voz,siarp_audioPause} from '../../../../script.js';
 
 function createInformation()
 {

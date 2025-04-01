@@ -1,4 +1,4 @@
-import { siarp_initDrawVRM, siarp_camPowerOff, siarp_camPowerOn, siarp_getDataVRM ,siarp_getDataVRM2, siarp_initDrawVRM_pop,siarp_moveVRM,siarp_setMovCoor,siarp_setRotationPart,animacion_desvanecer/*data avatar*/ } from '../../../script.js';
+import { siarp_initDrawVRM, siarp_camPowerOff, siarp_camPowerOn, siarp_getDataVRM ,siarp_getDataVRM2, siarp_initDrawVRM_pop,siarp_moveVRM,siarp_setMovCoor,siarp_setRotationPart,animacion_desvanecer/*data avatar*/ } from '../../../../script.js';
 
 function createRegister()
 {
