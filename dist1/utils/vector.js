@@ -1,34 +1,22 @@
 /** Vector Math class. */
 export default class Vector {
-
   constructor(a, b, c) {
-    if (a === undefined) {
-      this.x = 0;
-      this.y = 0;
-      this.z = 0;
-    } else if (typeof a === "number") {
-      this.x = a;
-      this.y = b != null ? b : 0;
-      this.z = c != null ? c : 0;
-    } else if (Array.isArray(a)) {
-      this.x = a[0] != null ? a[0] : 0;
-      this.y = a[1] != null ? a[1] : 0;
-      this.z = a[2] != null ? a[2] : 0;
-    } else if (a && typeof a === "object") {
-      if ("x" in a && "y" in a && "z" in a) {
-        this.x = a.x;
-        this.y = a.y;
-        this.z = a.z;
-      } else {
-        this.x = 0;
-        this.y = 0;
-        this.z = 0;
+      var _a, _b, _c, _d, _e, _f;
+      if (Array.isArray(a)) {
+          this.x = (_a = a[0]) !== null && _a !== void 0 ? _a : 0;
+          this.y = (_b = a[1]) !== null && _b !== void 0 ? _b : 0;
+          this.z = (_c = a[2]) !== null && _c !== void 0 ? _c : 0;
+          return;
       }
-    } else {
-      this.x = 0;
-      this.y = 0;
-      this.z = 0;
-    }
+      if (!!a && typeof a === "object") {
+          this.x = (_d = a.x) !== null && _d !== void 0 ? _d : 0;
+          this.y = (_e = a.y) !== null && _e !== void 0 ? _e : 0;
+          this.z = (_f = a.z) !== null && _f !== void 0 ? _f : 0;
+          return;
+      }
+      this.x = a !== null && a !== void 0 ? a : 0;
+      this.y = b !== null && b !== void 0 ? b : 0;
+      this.z = c !== null && c !== void 0 ? c : 0;
   }
   // Methods //
   /**
