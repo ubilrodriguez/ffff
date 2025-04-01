@@ -1,44 +1,75 @@
-const path = require("path");
-const { defineConfig } = require("vite");
-const Banner = require("vite-plugin-banner");
-const pkg = require("./package.json");
-const friendlyTypeImports = require("rollup-plugin-friendly-type-imports");
+import { defineConfig } from "vite";
+import path from "path";
+import { fileURLToPath } from "url";
+import Banner from "vite-plugin-banner";
+import pkg from "./package.json" assert { type: "json" };
 
-module.exports = defineConfig({
-    base: "./",
-    // Configuración para desarrollo web
-    root: "docs",
-    publicDir: "../public",
-    server: {
-        fs: {
-            strict: true,
-            allow: [
-                path.resolve(__dirname),
-                path.resolve(__dirname, "node_modules")
-            ]
+// Configuración de rutas
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const docsPath = path.resolve(__dirname, "docs");
+// ... (imports previos se mantienen igual)
+
+export default defineConfig(({ command }) => ({
+  
+  plugins: [
+    Banner(
+      `/**\n * ${pkg.name} v${pkg.version}\n * ${pkg.description}\n * ${pkg.homepage}\n */`
+    )
+  ],
+
+  root: docsPath,
+  publicDir: path.join(docsPath, "public"),
+  server: {
+    fs: {
+      allow: [
+        // Permite acceso a estas carpetas si es necesario
+        './node_modules/three',
+        './node_modules/three/examples/jsm/loaders',
+      ]}},
+  build: {
+    chunkSizeWarningLimit: 1000,
+    outDir: "../dist",
+    // publicDir: "docs/public",
+    publicDir: '../public', // Esto indica que la carpeta public está un nivel por encima de docs
+    emptyOutDir: true,
+    sourcemap: true,
+    reportCompressedSize: false,
+    rollupOptions: {
+      input: {
+        main: path.join(docsPath, "index.html")
+      },
+      output: {
+        manualChunks(id) {
+          // División más efectiva de chunks
+          if (id.includes('node_modules')) {
+            // Separa Three.js y sus utilidades
+            if (id.includes('three/examples/jsm')) return 'three-extras';
+            if (id.includes('three')) return 'three';
+            
+            // Separa otras librerías pesadas
+            if (id.includes('mediapipe')) return 'mediapipe';
+            if (id.includes('kalidokit')) return 'kalidokit';
+            
+            // Todo lo demás de node_modules va a vendor
+            return 'vendor';
+          }
+          
+          // Separa código fuente propio si es necesario
+          if (id.includes('src/')) return 'app-core';
         },
-        open: true,
-        port: 3000
-    },
-    // Configuración para build de librería
-    build: {
-        lib: {
-            entry: path.resolve(__dirname, "src/index.ts"),
-            name: "Kalidokit",
-            fileName: (format) => `kalidokit.${format}.js`,
-        },
-        rollupOptions: {
-            exports: "named",
-            external: [],
-            output: {
-                globals: {},
-            },
-        },
-    },
-    plugins: [
-        Banner(
-            `/**\n * @${pkg.name} v${pkg.version}\n * ${pkg.description}\n * \n * @license\n * Copyright (c) ${pkg.year} ${pkg.author}\n * SPDX-License-Idntifier: ${pkg.license} \n * ${pkg.homepage}\n */`
-        ),
-        friendlyTypeImports(),
-    ],
-});
+        chunkFileNames: 'assets/[name]-[hash].js',
+        entryFileNames: 'assets/[name]-[hash].js'
+      }
+    }
+  },
+
+  optimizeDeps: {
+    // Mantén esta exclusión solo si tienes problemas específicos
+    exclude: ['three']
+  },
+  
+  server: {
+    open: true,
+    port: 3000
+  }
+}));
