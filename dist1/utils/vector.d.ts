@@ -1,6 +1,6 @@
 import { XYZ } from "../Types";
 /** Vector Math class. */
-export default class Vector {
+declare class Vector {
     x: number;
     y: number;
     z: number;
@@ -24,7 +24,7 @@ export default class Vector {
     /**
      * Multiplies a vector or a number to a vector.
      * @param {Vector | number} a: Vector or number to multiply
-     * @param {Vector} b: Vector to multiply
+     * @returns {Vector} New vector
      */
     multiply(v: Vector | number): Vector;
     /**
@@ -140,7 +140,7 @@ export default class Vector {
      * Angle between two vectors
      * @param {Vector} a: Vector a
      * @param {Vector} b: Vector b
-     * @returns
+     * @returns {number} Angle
      */
     static angleBetween(a: Vector, b: Vector): number;
     /**
@@ -148,8 +148,9 @@ export default class Vector {
      * @param a
      * @param b
      * @param c
+     * @returns {number} Angle
      */
-    static angleBetweenVertices(a: Vector, b: Vector, c: Vector): void;
+    static angleBetweenVertices(a: Vector, b: Vector, c: Vector): number;
     static distance(a: Vector, b: Vector, d: number): number;
     static toDegrees(a: number): number;
     static normalizeAngle(radians: number): number;
@@ -171,7 +172,12 @@ export default class Vector {
     static rollPitchYaw(a: Vector | XYZ, b: Vector | XYZ, c?: Vector): Vector;
     /**
      * Find angle between 3D Coordinates
-     * @param {Vector | number} a:
+     * @param {Vector} a: First vector
+     * @param {Vector} b: Second vector
+     * @param {Vector} c: Third vector
+     * @returns {number} Angle
      */
     static angleBetween3DCoords(a: Vector | Record<"x" | "y" | "z", number>, b: Vector | Record<"x" | "y" | "z", number>, c: Vector | Record<"x" | "y" | "z", number>): number;
 }
+
+export default Vector;
