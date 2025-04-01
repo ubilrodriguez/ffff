@@ -1,39 +1,40 @@
 import { XYZ } from "../Types";
 
-/** Clase para operaciones matemáticas con vectores. */
+function isXYZ(obj: any): obj is XYZ {
+  return (
+    typeof obj === "object" &&
+    obj !== null &&
+    "x" in obj &&
+    "y" in obj &&
+    "z" in obj
+  );
+}
+
 export default class Vector {
   x: number;
   y: number;
   z: number;
 
   constructor(
-    a?: number[] | Record<"x" | "y" | "z", number> | number | Vector,
+    a?: number[] | XYZ | number | Vector,
     b?: number,
     c?: number
   ) {
     if (Array.isArray(a)) {
-      // Si se pasa un arreglo, se usan sus elementos
       this.x = a[0] ?? 0;
       this.y = a[1] ?? 0;
       this.z = a[2] ?? 0;
-    } else if (
-      typeof a === "object" &&
-      a !== null &&
-      "x" in a &&
-      "y" in a &&
-      "z" in a
-    ) {
-      // Si se pasa un objeto (incluyendo otro Vector), se extraen sus propiedades
+    } else if (isXYZ(a)) {
       this.x = a.x ?? 0;
       this.y = a.y ?? 0;
       this.z = a.z ?? 0;
     } else {
-      // Caso en el que se pasan números
       this.x = typeof a === "number" ? a : 0;
       this.y = typeof b === "number" ? b : 0;
       this.z = typeof c === "number" ? c : 0;
     }
   }
+
 
   // Métodos de instancia
 
